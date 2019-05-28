@@ -27,10 +27,8 @@ class PanelCategorias extends React.Component {
     
     let color = "white";    
     
-    let opcionesPorMostrar= funciones.GeneraOpcionesNuevas(store.getState().personajes,idCategoria);
-    
-    let indicePersonajeActual= funciones.GenerarNuevoIndiceUsuario(opcionesPorMostrar);
-    
+    let opcionesPorMostrar= funciones.GeneraOpcionesNuevas(store.getState().personajes,idCategoria);    
+    let indicePersonajeActual= funciones.GenerarNuevoIndiceUsuario(opcionesPorMostrar);    
     store.dispatch({
       type: "cambiaCategoria",
       data: {color:color, idCategoriaActual:idCategoria, opcionesPorMostrar: opcionesPorMostrar,indicePersonajeActual:indicePersonajeActual}

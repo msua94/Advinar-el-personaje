@@ -26,7 +26,7 @@ const styles = theme => ({
 });
 
 function ConsultarPersonajes() {    
-  const serviceUrl = 'http://localhost:38639/API/Personajes';  
+  const serviceUrl = 'http://localhost:38639/API/personajes';  
   fetch(serviceUrl)
     .then(res => {
       return res.json();

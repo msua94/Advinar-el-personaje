@@ -4,8 +4,9 @@ import './index.css';
 import VistaPrincipal from './componentsRedux/VistaPrincipal';
 import Cuerpo from './MaterialUI/cuerpo';
 import * as serviceWorker from './serviceWorker';
+import Home from './ReactRouterDOM/home';
 
-ReactDOM.render(<Cuerpo />, document.getElementById('root'));
+ReactDOM.render(<Home />, document.getElementById('root'));
 
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.
