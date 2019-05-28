@@ -28,7 +28,7 @@ function PanelIzquierdo(props) {
 
     <Grid item xs={12} sm={4} className={classes.panel}>
         <Paper className={classes.paper} >
-        <img className={classes.imagen} src={store.getState().opcionesPorMostrar[store.getState().indicePersonajeActual].imagen}></img>            
+        <img className={classes.imagen} src={store.getState().personajeActual.imagen}></img>            
         </Paper>
     </Grid>
   );

@@ -1,3 +1,5 @@
+import store from './stores/storeForMaterialUI';
+
 var jugador1 = {
      imagen : "http://localhost:3000/futbolistas/cristiano.jpg",
      nombre: "Cristiano Ronaldo",
@@ -209,16 +211,57 @@ var personaje27 = {
      imagen: "http://localhost:3000/Musica/MichaelJackson.jpg"
 }
 
+
 var personajes = [personaje1,personaje2,personaje3,personaje4,personaje5,personaje6,personaje7,personaje8,personaje9,personaje10,
                   personaje11,personaje12,personaje13,personaje14,personaje15,personaje16,personaje17,personaje18,personaje19,personaje20,
                   personaje21,personaje22,personaje23,personaje24,personaje25,personaje26,personaje27];
 
-const request = async () => {
-const response = await fetch('http://localhost:38639/API/Personajes');
-const json = await response.json();
-console.log(json);
+function FiltraPersonajesPorCategoria(personajes, idCategoriaActual){
+var personajesFiltrados = [];
+if (idCategoriaActual === 0){
+     return personajes;
+}
+else{
+     // console.log(personajes);
+     personajes.forEach(function(personaje){
+     if (personaje.idCategoria === idCategoriaActual){
+          personajesFiltrados.push(personaje);
+     }
+     });
+}
+return personajesFiltrados;
 }
 
-request();
+function GeneraOpcionesNuevas(personajes, idCategoriaActual){
+     // console.log("Cat ", idCategoriaActual);
+var personajesFiltrados = FiltraPersonajesPorCategoria(personajes, idCategoriaActual);
+let opcionesPorMostrar = [];
+if(personajesFiltrados.length === 0){
+     return personajesFiltrados;
+}
+var indiceNuevo = 0;
+var indices = [];
+while(indices.length < 4){
+     var indiceNuevo = Math.floor((Math.random() * personajesFiltrados.length));
+     if((indices.indexOf(indiceNuevo)===-1) && (indiceNuevo != store.getState().indicePersonajeActual)){
+     indices.push(indiceNuevo)
+     }
+}
+indices.forEach(function(indice){
+     opcionesPorMostrar.push(personajesFiltrados[indice]);
+});
+return opcionesPorMostrar;
+}
 
-export {jugadores, personajes, Categorias}
+function GenerarNuevoIndiceUsuario(opcionesPorMostrar){
+let indicePersonajeActual = Math.floor((Math.random() * opcionesPorMostrar.length));
+return indicePersonajeActual;
+}
+
+
+var funciones = {
+     GeneraOpcionesNuevas: (personajes, idCategoriaActual)=>{return GeneraOpcionesNuevas(personajes, idCategoriaActual)},
+     GenerarNuevoIndiceUsuario: (opcionesPorMostrar)=>{return GenerarNuevoIndiceUsuario(opcionesPorMostrar);}
+}
+
+export {jugadores, personajes, Categorias, funciones}
