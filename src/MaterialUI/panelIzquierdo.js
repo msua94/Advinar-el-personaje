@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
-import store from '../stores/storeForMaterialUI';
 
 const styles = theme => ({
   panel: {
@@ -28,7 +27,7 @@ function PanelIzquierdo(props) {
 
     <Grid item xs={12} sm={4} className={classes.panel}>
         <Paper className={classes.paper} >
-        <img className={classes.imagen} src={store.getState().personajeActual.imagen}></img>            
+              <img className={classes.imagen} src={props.imagen} alt={""}></img>            
         </Paper>
     </Grid>
   );

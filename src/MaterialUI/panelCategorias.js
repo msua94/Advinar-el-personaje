@@ -5,8 +5,7 @@ import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
-import {Categorias, funciones} from '../globales';
-import store from '../stores/storeForMaterialUI';
+import {Categorias} from '../globales';
 
 const styles = {
   root: {
@@ -15,25 +14,18 @@ const styles = {
 };
 
 class PanelCategorias extends React.Component {
-  state = {
+
+    constructor(props) {
+        super(props);
+    }
+
+state = {
     value: 0,
   };
 
   handleChange = (event, value) => {
-    this.setState({ value });
-  };
-
-  cambiaCategoria(idCategoria){
-    
-    let color = "white";    
-    
-    let opcionesPorMostrar= funciones.GeneraOpcionesNuevas(store.getState().personajes,idCategoria);    
-    let indicePersonajeActual= funciones.GenerarNuevoIndiceUsuario(opcionesPorMostrar);    
-    store.dispatch({
-      type: "cambiaCategoria",
-      data: {color:color, idCategoriaActual:idCategoria, opcionesPorMostrar: opcionesPorMostrar,indicePersonajeActual:indicePersonajeActual}
-    });
-  }
+      this.setState({ value});
+  };  
 
   render() {
     const { classes } = this.props;
@@ -42,10 +34,12 @@ class PanelCategorias extends React.Component {
       <Grid item xs={12} className={classes.root}>
         <br/>
         <Paper >
-          <Tabs value={this.state.value} onChange={this.handleChange} indicatorColor="primary" textColor="primary" centered>
+                <Tabs value={this.props.idCategoriaActual} onChange={this.handleChange} indicatorColor="primary" textColor="primary" centered initialSelectedIndex={this.props.idCategoriaActual}>
           {Object.keys(Categorias).map(
             (categoria)=>{
-              return <Tab label={Categorias[categoria].nombre} onClick = {()=>{this.cambiaCategoria(Categorias[categoria].idCategoria)}} />;
+                return <Tab key={Categorias[categoria].idCategoria} Value={Categorias[categoria].idCategoria}
+                            label={Categorias[categoria].nombre}
+                            onClick={() => { this.props.cambiaCategoria(Categorias[categoria].idCategoria) }} />;
             })}         
           </Tabs>
         </Paper>

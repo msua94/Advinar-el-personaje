@@ -21,7 +21,7 @@ function Encabezado(props) {
 
   return (
     <Grid item xs={12}>
-        <Paper className={classes.paper} square={false}>Escoje el personaje correcto Fecha: {`${new Date()}`}</Paper>
+        <Paper className={classes.paper} square={false}>Escoje el personaje correcto Fecha: {`${new Date().toLocaleDateString()}`}</Paper>
     </Grid>
   );
 }

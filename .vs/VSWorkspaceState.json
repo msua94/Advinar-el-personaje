@@ -1,0 +1,11 @@
+{
+  "ExpandedNodes": [
+    "",
+    "\\src",
+    "\\src\\components",
+    "\\src\\MaterialUI",
+    "\\src\\stores"
+  ],
+  "SelectedNode": "\\src\\stores\\configureStore.js",
+  "PreviewInSolutionExplorer": false
+}

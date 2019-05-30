@@ -10,7 +10,7 @@ const personajeInicial={
 var defaultState = {
     color:"white",
     indicePersonajeActual:0,
-    estado:"disabled",
+    estado:true,
     respuesta: "",
     colorBotonSiguiente: "grey",
     idCategoriaActual : 0,
@@ -40,7 +40,8 @@ function personajesReducer(state = defaultState, action) {
       case "cambiaCategoria" :  
       return {
         ...state,
-        color:action.data.color,
+          color: action.data.color,
+        estado: true,
         idCategoriaActual:action.data.idCategoriaActual,
         opcionesPorMostrar: action.data.opcionesPorMostrar,
         indicePersonajeActual: action.data.indicePersonajeActual,
