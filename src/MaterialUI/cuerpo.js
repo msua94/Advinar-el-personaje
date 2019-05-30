@@ -5,7 +5,9 @@ import PanelDerecho from './panelDerecho';
 import PanelIzquierdo from './panelIzquierdo';
 import PanelCategorias from './panelCategorias';
 import Cargando from './cargando';
+import ErrorConsultarPersonajes from './ErrorConsultarPersonajes';
 import Grid from '@material-ui/core/Grid';
+import MetaTags from 'react-meta-tags';
 
 function FiltraPersonajesPorCategoria(personajes, idCategoria) {
     let personajesFiltrados = [];
@@ -83,6 +85,24 @@ function CambiaCategoria(idCategoria){
     });
 }
 
+function CargarLosPersonajes(personajes) {
+    let opcionesPorMostrar = GeneraOpcionesNuevas(personajes, store.getState().idCategoriaActual);
+    let indicePersonajeActual = GenerarNuevoIndiceUsuario(opcionesPorMostrar);
+    console.log("ya termine");
+    store.dispatch({
+        type: "CargarPersonajes",
+        data: { personajes: personajes, opcionesPorMostrar: opcionesPorMostrar, indicePersonajeActual: indicePersonajeActual }
+    });
+}
+
+function MostrarErrorAlCargarPersonaje() {
+    store.dispatch({
+        type: "MostrarErrorAlCargarPersonajes",
+        data: {}
+    });
+} 
+
+
 class Cuerpo extends React.Component {
 
     styles = {
@@ -92,26 +112,22 @@ class Cuerpo extends React.Component {
     };
     
     ConsultarPersonajes() {
-        if (store.getState().personajes.length === 0) {
+        if (store.getState().personajes === null) {
             const serviceUrl = 'http://localhost:38639/API/personajes';
             fetch(serviceUrl)
                 .then(res => {
                     return res.json();
                 })
                 .then((personajes) => {
-                    let opcionesPorMostrar = GeneraOpcionesNuevas(personajes, store.getState().idCategoriaActual);
-                    let indicePersonajeActual = GenerarNuevoIndiceUsuario(opcionesPorMostrar);
-                    console.log("ya termine");
-                    store.dispatch({
-                        type: "CargarPersonajes",
-                        data: { personajes: personajes, opcionesPorMostrar: opcionesPorMostrar, indicePersonajeActual: indicePersonajeActual }
-                    });
-
-                }).catch(error => console.log(error));
+                    CargarLosPersonajes(personajes);
+                }).catch(error => {
+                    console.log(error);
+                    MostrarErrorAlCargarPersonaje();
+                });
         }
     }
 
-    componentWillMount() {
+    componentDidMount() {
         store.subscribe(() => {
             this.setState({});
         });
@@ -121,8 +137,24 @@ class Cuerpo extends React.Component {
     constructor(props) {
         super(props);
     }
+      
 
-    render() {
+    render(){
+        if (store.getState().personajes === null) {
+            return (
+                <div style={this.styles.root}>
+                    <MetaTags>
+                        <title>Adivinar el personaje</title>
+                        <meta charSet="utf-8" />
+                    </MetaTags>
+                    <Grid container spacing={8}>
+                        <Encabezado></Encabezado>
+                        <ErrorConsultarPersonajes></ErrorConsultarPersonajes>
+                        <PanelCategorias cambiaCategoria={CambiaCategoria}></PanelCategorias>
+                    </Grid>
+                </div>
+            );
+        }
         if (store.getState().personajes.length !== 0) {
             return (
                 <div style={this.styles.root}>
@@ -138,7 +170,7 @@ class Cuerpo extends React.Component {
                 </div>
             );
         }
-        else {
+        if (store.getState().personajes.length === 0) {
             return (
                 <div style={this.styles.root}>
                     <Grid container spacing={8}>

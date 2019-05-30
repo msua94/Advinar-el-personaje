@@ -16,7 +16,7 @@ var defaultState = {
     idCategoriaActual : 0,
     opcionesPorMostrar: [],
     personajeActual : personajeInicial,
-    personajes:[]
+    personajes:null
 }
 
 function personajesReducer(state = defaultState, action) {
@@ -54,7 +54,13 @@ function personajesReducer(state = defaultState, action) {
         opcionesPorMostrar: action.data.opcionesPorMostrar,
         indicePersonajeActual: action.data.indicePersonajeActual,
         personajeActual : action.data.opcionesPorMostrar[action.data.indicePersonajeActual]
-      };
+          };
+      case "MostrarErrorAlCargarPersonajes":
+          return {
+              ...state,
+              personajes: null,
+              
+          };
     default:
       return state
   }
